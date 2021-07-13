@@ -7,6 +7,16 @@ import createError from "http-errors"
 
 const usersRouter = express.Router()
 
+
+usersRouter.get("/", basicAuthMiddleware, adminOnly, async(req,res,next) => {
+  try {
+    const users = await UserModel.find()
+    res.send(users)
+  } catch (error) {
+    next(error)
+  }
+})
+
 usersRouter.post("/", async (req, res, next) => {
   try {
     const newUser = new UserModel(req.body)
@@ -22,16 +32,6 @@ usersRouter.post("/", async (req, res, next) => {
     }
   }
 })
-
-usersRouter.get("/", basicAuthMiddleware, adminOnly, async(req,res,next) => {
-  try {
-    const users = await UserModel.find()
-    res.send(users)
-  } catch (error) {
-    next(error)
-  }
-})
-
 
 usersRouter.get("/me", basicAuthMiddleware, async (req, res, next) => {
   try {
