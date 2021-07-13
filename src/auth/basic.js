@@ -28,7 +28,6 @@ export const basicAuthMiddleware = async (req, res, next) => {
       // 4. Proceed to the route handler if credentials are fine
       req.user = user
       next()
-
     } else {
       next(createError(401, "Credentials are not correct!"))
     }
