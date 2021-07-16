@@ -12,12 +12,11 @@ export const basicAuthMiddleware = async (req, res, next) => {
     next(createError(401, "Please provide credentials in the authorization header!"))
   } else {
     // 2. Decode and extract credentials from the Authorization header (they are in base64 --> string)
-
+    // console.log('req.headers.authorization:', req.headers.authorization)
     const decoded = atob(req.headers.authorization.split(" ")[1])
-    // console.log('decoded:', decoded)
 
     const [email, password] = decoded.split(":")
-
+    // console.log('decoded:', decoded)
     // console.log('email:', email)
     // console.log('password:', password)
     // 3. Check the validity of credentials (find user in db by email, and compare plain pw with hashed), if they are not valid --> trigger an error (401)

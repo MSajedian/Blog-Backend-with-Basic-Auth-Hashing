@@ -6,7 +6,7 @@ import mongoose from "mongoose"
 import blogpostsRouter from "./services/blogposts/index.js"
 import usersRouter from "./services/users/index.js"
 
-import { notFoundErrorHandler, badRequestErrorHandler, catchAllErrorHandler } from "./errorHandlers.js"
+import { notFoundErrorHandler, badRequestErrorHandler, catchAllErrorHandler,unAuthorizedHandler } from "./errorHandlers.js"
 
 const server = express()
 
@@ -26,6 +26,7 @@ server.use("/users", usersRouter)
 
 server.use(badRequestErrorHandler)
 server.use(notFoundErrorHandler)
+server.use(unAuthorizedHandler)
 server.use(catchAllErrorHandler)
 
 console.table(listEndpoints(server))

@@ -17,7 +17,7 @@ usersRouter.get("/", basicAuthMiddleware, adminOnly, async(req,res,next) => {
   }
 })
 
-usersRouter.post("/", async (req, res, next) => {
+usersRouter.post("/register", async (req, res, next) => {
   try {
     const newUser = new UserModel(req.body)
     const { _id } = await newUser.save()
@@ -55,9 +55,14 @@ usersRouter.put("/me", basicAuthMiddleware, async (req, res, next) => {
 
     // modifiy the user with the fields coming from req.body
 
-    req.user.name = "Whatever"
-
+    req.user.name=req.body.name
+    req.user.surname=req.body.surname
+    req.user.email=req.body.email
+    req.user.password=req.body.password
+    req.user.role=req.body.role
+    
     await req.user.save()
+    res.status(201).send(req.user)
   } catch (error) {
     next(error)
   }
